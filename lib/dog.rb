@@ -59,11 +59,11 @@ attr_accessor :name, :breed, :id
     sql = "SELECT * FROM dogs WHERE name = ? AND breed = ?;"
     dog = DB[:conn].execute(sql, name, breed)
     # binding.pry
-    if dog[0] != nil      # or !dog.empty?
+    if dog[0] == nil   #if array is empty, then create a new dog and save in the database
+      dog = self.create(name: name, breed: breed)
+    else    #if array has values, then return the correct dog 
       dog_data = dog[0]
       dog = Dog.new(id: dog_data[0], name: dog_data[1], breed: dog_data[2])
-    else
-      dog = self.create(name: name, breed: breed)
     end
     dog
   end
