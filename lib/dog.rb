@@ -67,25 +67,11 @@ check=DB[:conn].execute(sql,name,breed)[0]
 if check != nil
   self.find_by_name(name)
 else
-
-  creation=Dog.create(name:name,breed:breed)
-  creation.save
-  creation.id=DB[:conn].execute("SELECT last_insert_rowid()")[0][0]
-  return creation
+  create(name:name,breed:breed)
 end
 end
 
-  #a=array[0][0]==nil?
-#  binding.pry
-  # if check.nil?==false
-  #   a=DB[:conn].execute("SELECT * FROM dogs WHERE name=?, breed=?;", hash[:name], hash[:breed])
-  #   puts a
-  #   binding.pry
-  # else
-  # #if not
-  # #self.create(hash)
-  # #end
-  # end
+
 
 def self.find_by_name(name)
   row=DB[:conn].execute("SELECT * FROM  dogs WHERE name=?" ,name)[0]
