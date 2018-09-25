@@ -82,25 +82,15 @@ class Dog
   end
 
   def self.find_by_id(id)
-    row = []
     sql = <<-SQL
       SELECT * FROM dogs WHERE id = (?)
     SQL
-    DB[:conn].execute(sql, id).map do |attributes|
-      attributes.map do |attribute|
-        # binding.pry
-        row << attribute
-      end
-    end
-    self.new_from_db(row)
+    DB[:conn].execute(sql, id).map do |row|
+        self.new_from_db(row)
+    end.first
   end
 
-  def self.find_by_breed(breed)
-    sql = <<-SQL
-      SELECT * FROM dogs WHERE breed = (?)
-    SQL
-    DB[:conn].execute(sql, breed)
-  end
+
 
 
   def self.find_or_create_by(hash)
