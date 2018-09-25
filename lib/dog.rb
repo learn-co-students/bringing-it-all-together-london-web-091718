@@ -44,7 +44,7 @@ attr_accessor :name, :breed, :id
   def self.find_by_id(id)
     sql = "SELECT * FROM dogs WHERE id=? LIMIT 1"
     row = DB[:conn].execute(sql, id)[0]
-    self.new_from_db(row)
+    self.new_from_db(row)   #self. is not necessary
   end
 
   def self.new_from_db(row)
@@ -52,6 +52,7 @@ attr_accessor :name, :breed, :id
     name = row[1]
     breed = row[2]
     self.new(id: id, name: name, breed: breed)
+    # or in one line.... self.new(id: row[0], name: row[1], breed: row[2])
   end
 
   def self.find_or_create_by(name:, breed:)
@@ -67,18 +68,15 @@ attr_accessor :name, :breed, :id
     dog
   end
 
-
   def self.find_by_name(name)
     sql = "SELECT * FROM dogs WHERE name=? LIMIT 1"
     row = DB[:conn].execute(sql, name)[0]
     self.new_from_db(row)
   end
 
-
   def update
     sql = "UPDATE dogs SET name=?, breed=? WHERE id=?"
     DB[:conn].execute(sql, self.name, self.breed ,self.id)
     #binding.pry
   end
-
 end
